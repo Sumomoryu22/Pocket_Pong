@@ -22,3 +22,7 @@ I would use this to permanently store the user's data in a data table for their 
 ### Websocket -
 I would implement this function so that my Pocket Pong application can now be connected to a server where another person can join the server and it can become a 2-player multiplayer video game!!! 
 
+
+
+### Deliverable Log 2/10/25
+index.html file is in progress. Going to get the three pages in functional order hopefully. 
