@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html>
 <head>
 <title>Canvas Example</title>
@@ -10,7 +10,7 @@
 </head>
 <body>
 
-<canvas id="myCanvas" width="500" height="300"></canvas>
+<canvas id="myCanvas" width="300" height="300"></canvas>
 
 <script>
   // Get the canvas element
@@ -19,24 +19,21 @@
   // Get the 2D rendering context
   const ctx = canvas.getContext("2d");
 
-  // Example: Drawing a rectangle
-  ctx.fillStyle = "lightblue";
-  ctx.fillRect(50, 50, 200, 100); // x, y, width, height
-
-  // Example: Drawing a line
-  ctx.beginPath();
-  ctx.moveTo(10, 10);
-  ctx.lineTo(400, 200);
-  ctx.strokeStyle = "red";
-  ctx.stroke();
-
-  // Example: Drawing a circle
-  ctx.beginPath();
-  ctx.arc(300, 200, 50, 0, 2 * Math.PI); //x, y, radius, startAngle, endAngle
-  ctx.fillStyle = "yellow";
-  ctx.fill();
+  let width = canvas.width;
+  let height = canvas.height;
+ 
+  ctx.fillStyle = "black";
+  ctx.fillRect(0,0, width, height);
+ 
+  const BALL_SIZE = 5;
+  let ballPosition = {x:20, y:30};
+  ctx.fillStyle =  "white";
+ 
+  ctx.fillRect(ballPosition.x, ballPosition.y, BALL_SIZE, BALL_SIZE);
+ 
+ 
 
 </script>
 
-</body>  
-</html> 
+</body>
+</html>
