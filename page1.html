@@ -1,0 +1,42 @@
+<!DOCTYPE html> 
+<html>
+<head>
+<title>Canvas Example</title>
+<style>
+  #myCanvas {
+    border: 1px solid black; /* Optional: Adds a border for visual clarity */
+  }
+</style>
+</head>
+<body>
+
+<canvas id="myCanvas" width="500" height="300"></canvas>
+
+<script>
+  // Get the canvas element
+  const canvas = document.getElementById("myCanvas");
+
+  // Get the 2D rendering context
+  const ctx = canvas.getContext("2d");
+
+  // Example: Drawing a rectangle
+  ctx.fillStyle = "lightblue";
+  ctx.fillRect(50, 50, 200, 100); // x, y, width, height
+
+  // Example: Drawing a line
+  ctx.beginPath();
+  ctx.moveTo(10, 10);
+  ctx.lineTo(400, 200);
+  ctx.strokeStyle = "red";
+  ctx.stroke();
+
+  // Example: Drawing a circle
+  ctx.beginPath();
+  ctx.arc(300, 200, 50, 0, 2 * Math.PI); //x, y, radius, startAngle, endAngle
+  ctx.fillStyle = "yellow";
+  ctx.fill();
+
+</script>
+
+</body>  
+</html> 
