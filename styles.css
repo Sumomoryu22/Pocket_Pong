@@ -1,0 +1,17 @@
+body{
+  padding: 25px;
+}
+.title {
+color: #5C6AC4;
+text-align: center;
+}
+.button-stack {
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  gap: 10px; /* Add spacing between buttons (optional) */
+  align-items: center; /* Center buttons horizontally (optional) */
+}
+
+.button-stack button {
+  width: 150px; /* Optional: set a consistent width for buttons */
+}
