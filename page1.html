@@ -13,47 +13,56 @@
 <canvas id="myCanvas" width="300" height="300"></canvas>
 
 <script>
-  // Get the canvas element
-  const canvas = document.getElementById("myCanvas");
+ // Get the canvas element
+const canvas = document.getElementById("myCanvas");
 
-  // Get the 2D rendering context
-  const ctx = canvas.getContext("2d");
+// Get the 2D rendering context
+const ctx = canvas.getContext("2d");
 
-  let width = canvas.width;
-  let height = canvas.height;
-  
-  const BALL_SIZE = 5;
-  let ballPosition = {x:20, y:30};
-  
-  let xspeed = 4;
-  let yspeed = 2;
- 
- function draw () {
-  ctx.fillStyle = "black";
-  ctx.fillRect(0,0, width, height);
- 
-  
-  ctx.fillStyle =  "white";
-  ctx.fillRect(ballPosition.x, ballPosition.y, BALL_SIZE, BALL_SIZE);
- 
- }
- 
- function update (){
-   
-   ballPosition.x += xspeed;
-   ballPosition.y += yspeed;
-   
- }
- 
- function gameloop () {
-   draw();
-   update();
-   
-   
-   
- }
+let width = canvas.width;
+let height = canvas.height;
+
+const BALL_SIZE = 5;
+let ballPosition = { x: 20, y: 30 };
+
+let xspeed = 4;
+let yspeed = 2;
+
+function draw() {
+    ctx.fillStyle = "black";
+    ctx.fillRect(0, 0, width, height);
+
+    ctx.fillStyle = "white";
+    ctx.fillRect(ballPosition.x, ballPosition.y, BALL_SIZE, BALL_SIZE);
+}
+
+function update() {
+    ballPosition.x += xspeed;
+    ballPosition.y += yspeed;
+}
+
+function checkCollision() {
+    let ball = {
+        left: ballPosition.x,
+        right: ballPosition.x + BALL_SIZE,
+        top: ballPosition.y,
+        bottom: ballPosition.y + BALL_SIZE
+    };
+    if (ball.left < 0 || ball.right > width) {
+        xspeed = -xspeed;
+    }
+    if (ball.top < 0 || ball.bottom > height) {
+        yspeed = -yspeed;
+    }
+}
+
+function gameloop() {
+    draw();
+    update();
+    checkCollision();
+}
+
 setInterval(gameloop, 30);
- 
 
 
 </script>
