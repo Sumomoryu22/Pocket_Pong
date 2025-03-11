@@ -19,6 +19,7 @@ const canvas = document.getElementById("myCanvas");
 // Get the 2D rendering context
 const ctx = canvas.getContext("2d");
 
+// Declaration of variables
 let width = canvas.width;
 let height = canvas.height;
 
@@ -28,19 +29,51 @@ let ballPosition = { x: 20, y: 30 };
 let xspeed = 4;
 let yspeed = 2;
 
+const PADDLE_WIDTH = 5;
+const PADDLE_HEIGHT = 20;
+const PADDLE_OFFSET = 10;
+let leftPaddleTop = 10;
+let rightPaddleTop = 30;
+
+document.addEventListener("mousemove", e => {
+rightPaddleTop = e.y - canvas.offsetTop;
+});
+
+
+
+// background and ball
 function draw() {
+  //black background
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, width, height);
-
+//draws pong ball
     ctx.fillStyle = "white";
     ctx.fillRect(ballPosition.x, ballPosition.y, BALL_SIZE, BALL_SIZE);
+    
+    // left paddle
+   ctx.fillRect (
+     PADDLE_OFFSET,
+     leftPaddleTop,
+     PADDLE_WIDTH,
+     PADDLE_HEIGHT
+   );
+   // right paddle
+   ctx.fillRect(
+    width - PADDLE_WIDTH - PADDLE_OFFSET,
+    rightPaddleTop,
+    PADDLE_WIDTH,
+    PADDLE_HEIGHT
+    );
+    
 }
 
+
+// ball speed
 function update() {
     ballPosition.x += xspeed;
     ballPosition.y += yspeed;
 }
-
+// bouncy ball
 function checkCollision() {
     let ball = {
         left: ballPosition.x,
@@ -55,7 +88,7 @@ function checkCollision() {
         yspeed = -yspeed;
     }
 }
-
+// Brings the code to life
 function gameloop() {
     draw();
     update();
