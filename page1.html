@@ -44,49 +44,67 @@ canvas.addEventListener("touchmove", (event) => {
 });
 
 function draw() {
-    ctx.fillStyle = "black";
-    ctx.fillRect(0, 0, width, height);
-    ctx.fillStyle = "white";
-    ctx.fillRect(ballPosition.x, ballPosition.y, BALL_SIZE, BALL_SIZE);
-    ctx.fillRect (PADDLE_OFFSET, leftPaddleTop, PADDLE_WIDTH, PADDLE_HEIGHT);
-    ctx.fillRect(width - PADDLE_WIDTH - PADDLE_OFFSET, rightPaddleTop, PADDLE_WIDTH, PADDLE_HEIGHT);
+  ctx.fillStyle = "black";
+  ctx.fillRect(0, 0, width, height);
+  ctx.fillStyle = "white";
+  ctx.fillRect(ballPosition.x, ballPosition.y, BALL_SIZE, BALL_SIZE);
+  ctx.fillRect(PADDLE_OFFSET, leftPaddleTop, PADDLE_WIDTH, PADDLE_HEIGHT);
+  ctx.fillRect(width - PADDLE_WIDTH - PADDLE_OFFSET, rightPaddleTop, PADDLE_WIDTH, PADDLE_HEIGHT);
 }
 
 function update() {
-    ballPosition.x += xspeed;
-    ballPosition.y += yspeed;
+  ballPosition.x += xspeed;
+  ballPosition.y += yspeed;
+}
+
+function checkPaddleCollision(ball, paddle) {
+  return (
+    ball.left < paddle.right &&
+    ball.right > paddle.left &&
+    ball.top < paddle.bottom &&
+    ball.bottom > paddle.top
+  );
 }
 
 function checkCollision() {
-    let ball = { left: ballPosition.x, right: ballPosition.x + BALL_SIZE, top: ballPosition.y, bottom: ballPosition.y + BALL_SIZE };
-    if (ball.left < 0 || ball.right > width) {
-        xspeed = -xspeed;
-    }
-    if (ball.top < 0 || ball.bottom > height) {
-        yspeed = -yspeed;
-    }
-}
-  
-  let leftPaddle {
-    left: PADDLE_OFFSET, 
-    right: PADDLE_OFFSET + PADDLE_WIDTH, 
-    top: leftPaddleTop, 
-    bottom: leftPaddleTop+PADDlE_HEIGHT,
-  }; 
+  let ball = { left: ballPosition.x, right: ballPosition.x + BALL_SIZE, top: ballPosition.y, bottom: ballPosition.y + BALL_SIZE };
+  if (ball.left < 0 || ball.right > width) {
+    xspeed = -xspeed;
+  }
+  if (ball.top < 0 || ball.bottom > height) {
+    yspeed = -yspeed;
+  }
+  let leftPaddle = {
+    left: PADDLE_OFFSET,
+    right: PADDLE_OFFSET + PADDLE_WIDTH,
+    top: leftPaddleTop,
+    bottom: leftPaddleTop + PADDLE_HEIGHT
+  };
 
-  
-  
-  
-  
+  let rightPaddle = {
+    left: width - PADDLE_WIDTH - PADDLE_OFFSET,
+    right: width - PADDLE_OFFSET,
+    top: rightPaddleTop,
+    bottom: rightPaddleTop + PADDLE_HEIGHT
+  };
+
+  if (checkPaddleCollision(ball, leftPaddle)) {
+    xspeed = Math.abs(xspeed);
+  }
+
+  if (checkPaddleCollision(ball, rightPaddle)) {
+    xspeed = -Math.abs(xspeed);
+  }
+}
+
 function gameloop() {
-    draw();
-    update();
-    checkCollision();
+  draw();
+  update();
+  checkCollision();
 }
 
 setInterval(gameloop, 30);
 </script>
-
 </body>
 </html>
 
