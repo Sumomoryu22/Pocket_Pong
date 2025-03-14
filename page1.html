@@ -4,7 +4,7 @@
 <title>Canvas Example</title>
 <style>
   #myCanvas {
-    border: 1px solid black; /* Optional: Adds a border for visual clarity */
+    border: 1px solid black;
   }
 </style>
 </head>
@@ -13,13 +13,9 @@
 <canvas id="myCanvas" width="300" height="300"></canvas>
 
 <script>
- // Get the canvas element
 const canvas = document.getElementById("myCanvas");
-
-// Get the 2D rendering context
 const ctx = canvas.getContext("2d");
 
-// Declaration of variables
 let width = canvas.width;
 let height = canvas.height;
 
@@ -32,55 +28,37 @@ let yspeed = 2;
 const PADDLE_WIDTH = 5;
 const PADDLE_HEIGHT = 20;
 const PADDLE_OFFSET = 10;
-let leftPaddleTop = 10;
+let leftPaddleTop = 30;
 let rightPaddleTop = 30;
 
 document.addEventListener("mousemove", e => {
 rightPaddleTop = e.y - canvas.offsetTop;
 });
 
+canvas.addEventListener("touchmove", (event) => {
+  event.preventDefault();
+  const touch = event.touches[0];
+  const rect = canvas.getBoundingClientRect();
+  const touchY = touch.clientY - rect.top;
+  rightPaddleTop = touchY;
+});
 
-
-// background and ball
 function draw() {
-  //black background
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, width, height);
-//draws pong ball
     ctx.fillStyle = "white";
     ctx.fillRect(ballPosition.x, ballPosition.y, BALL_SIZE, BALL_SIZE);
-    
-    // left paddle
-   ctx.fillRect (
-     PADDLE_OFFSET,
-     leftPaddleTop,
-     PADDLE_WIDTH,
-     PADDLE_HEIGHT
-   );
-   // right paddle
-   ctx.fillRect(
-    width - PADDLE_WIDTH - PADDLE_OFFSET,
-    rightPaddleTop,
-    PADDLE_WIDTH,
-    PADDLE_HEIGHT
-    );
-    
+    ctx.fillRect (PADDLE_OFFSET, leftPaddleTop, PADDLE_WIDTH, PADDLE_HEIGHT);
+    ctx.fillRect(width - PADDLE_WIDTH - PADDLE_OFFSET, rightPaddleTop, PADDLE_WIDTH, PADDLE_HEIGHT);
 }
 
-
-// ball speed
 function update() {
     ballPosition.x += xspeed;
     ballPosition.y += yspeed;
 }
-// bouncy ball
+
 function checkCollision() {
-    let ball = {
-        left: ballPosition.x,
-        right: ballPosition.x + BALL_SIZE,
-        top: ballPosition.y,
-        bottom: ballPosition.y + BALL_SIZE
-    };
+    let ball = { left: ballPosition.x, right: ballPosition.x + BALL_SIZE, top: ballPosition.y, bottom: ballPosition.y + BALL_SIZE };
     if (ball.left < 0 || ball.right > width) {
         xspeed = -xspeed;
     }
@@ -88,7 +66,18 @@ function checkCollision() {
         yspeed = -yspeed;
     }
 }
-// Brings the code to life
+  
+  let leftPaddle {
+    left: PADDLE_OFFSET, 
+    right: PADDLE_OFFSET + PADDLE_WIDTH, 
+    top: leftPaddleTop, 
+    bottom: leftPaddleTop+PADDlE_HEIGHT,
+  }; 
+
+  
+  
+  
+  
 function gameloop() {
     draw();
     update();
@@ -96,9 +85,10 @@ function gameloop() {
 }
 
 setInterval(gameloop, 30);
-
-
 </script>
+
+</body>
+</html>
 
 </body>
 </html>
