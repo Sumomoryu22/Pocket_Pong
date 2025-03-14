@@ -20,16 +20,29 @@ let width = canvas.width;
 let height = canvas.height;
 
 const BALL_SIZE = 5;
-let ballPosition = { x: 20, y: 30 };
+let ballPosition;
 
-let xspeed = 4;
-let yspeed = 2;
+let xspeed;
+let yspeed;
+
+function initBall() {
+  ballPosition = { x: 20, y: 30};
+  
+  xspeed = 4;
+  yspeed = 2;
+  
+  
+}
+
 
 const PADDLE_WIDTH = 5;
 const PADDLE_HEIGHT = 20;
 const PADDLE_OFFSET = 10;
 let leftPaddleTop = 30;
 let rightPaddleTop = 30;
+
+let leftScore = 0;
+let rightScore = 0;
 
 document.addEventListener("mousemove", e => {
 rightPaddleTop = e.y - canvas.offsetTop;
@@ -50,6 +63,13 @@ function draw() {
   ctx.fillRect(ballPosition.x, ballPosition.y, BALL_SIZE, BALL_SIZE);
   ctx.fillRect(PADDLE_OFFSET, leftPaddleTop, PADDLE_WIDTH, PADDLE_HEIGHT);
   ctx.fillRect(width - PADDLE_WIDTH - PADDLE_OFFSET, rightPaddleTop, PADDLE_WIDTH, PADDLE_HEIGHT);
+  
+  // Draw scores
+ctx.font = "30px monospace";
+ctx.textAlign = "left";
+ctx.fillText(leftScore.toString(), 50, 50);
+ctx.textAlign = "right";
+ctx.fillText(rightScore.toString(), width - 50, 50);
 }
 
 function update() {
@@ -65,6 +85,18 @@ function checkPaddleCollision(ball, paddle) {
     ball.bottom > paddle.top
   );
 }
+
+
+function adjustAngle (distanceFromTop, distanceFromBottom){
+  if (distanceFromTop < 0) {
+    yspeed -= 0.5;
+  } else if (distanceFromBottom < 0){
+    yspeed += 0.5;
+  }
+}
+
+
+
 
 function checkCollision() {
   let ball = { left: ballPosition.x, right: ballPosition.x + BALL_SIZE, top: ballPosition.y, bottom: ballPosition.y + BALL_SIZE };
@@ -89,13 +121,35 @@ function checkCollision() {
   };
 
   if (checkPaddleCollision(ball, leftPaddle)) {
+    let distanceFromTop = ball.top - leftPaddle.top;
+let distanceFromBottom = leftPaddle.bottom - ball.bottom;
+adjustAngle(distanceFromTop, distanceFromBottom);
     xspeed = Math.abs(xspeed);
   }
 
   if (checkPaddleCollision(ball, rightPaddle)) {
+    let distanceFromTop = ball.top - rightPaddle.top;
+let distanceFromBottom = rightPaddle.bottom - ball.bottom;
+adjustAngle(distanceFromTop, distanceFromBottom);
+    
     xspeed = -Math.abs(xspeed);
+
+  };
+  
+  if (ball.left < 0){
+    rightScore++;
+    initBall();
   }
-}
+  if (ball.right > width) {
+    leftScore++;
+    initBall();
+    
+  }
+  
+};
+
+
+
 
 function gameloop() {
   draw();
@@ -103,6 +157,7 @@ function gameloop() {
   checkCollision();
 }
 
+initBall();
 setInterval(gameloop, 30);
 </script>
 </body>
