@@ -19,6 +19,8 @@ const ctx = canvas.getContext("2d");
 let width = canvas.width;
 let height = canvas.height;
 
+const MAX_COMPUTER_SPEED = 2;
+
 const BALL_SIZE = 5;
 let ballPosition;
 
@@ -72,9 +74,36 @@ ctx.textAlign = "right";
 ctx.fillText(rightScore.toString(), width - 50, 50);
 }
 
+
+
+
+
+function followBall () {
+  let ball = {
+    top: ballPosition.y,
+    bottom: ballPosition.y + BALL_SIZE
+  };
+  
+  let leftPaddle = {
+    top: leftPaddleTop, 
+    bottom: leftPaddleTop + PADDLE_HEIGHT
+    
+  };
+  
+  if (ball.top < leftPaddle.top) {
+    leftPaddleTop -= MAX_COMPUTER_SPEED;
+  } else if (ball.bottom > leftPaddle.bottom) {
+    leftPaddleTop += MAX_COMPUTER_SPEED;
+    
+  }
+
+}
+
+
 function update() {
   ballPosition.x += xspeed;
   ballPosition.y += yspeed;
+  followBall();
 }
 
 function checkPaddleCollision(ball, paddle) {
@@ -88,9 +117,11 @@ function checkPaddleCollision(ball, paddle) {
 
 
 function adjustAngle (distanceFromTop, distanceFromBottom){
-  if (distanceFromTop < 0) {
+  if (distanceFromTop < 5) {
+    console.log("Top hit!");
     yspeed -= 0.5;
-  } else if (distanceFromBottom < 0){
+  } else if (distanceFromBottom < 5){
+    console.log("Bottom hit!");
     yspeed += 0.5;
   }
 }
